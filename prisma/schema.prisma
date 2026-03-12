@@ -71,12 +71,12 @@ model VerificationToken {
 model Chat {
   chatId           String   @id @default(cuid())
   sourceLocationId String
-  sourceName       String   @db.VarChar(100)
   vibe             Vibe
   userId           String
   createdAt        DateTime @default(now())
 
   user            User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sourceLocation  Location         @relation("SourceChats", fields: [sourceLocationId], references: [id])
   recommendations Recommendation[]
 
   @@index([userId])
@@ -92,9 +92,12 @@ enum Vibe {
 }
 
 model Recommendation {
-  recommendationId    String   @id @default(cuid())
-  locationId          String
-  cityName            String   @db.VarChar(100)
+  recommendationId String  @id @default(cuid())
+  locationId       String
+  sourceLocationId String
+  chatId           String?
+  userId           String
+
   vibe                Vibe
   description         String   @db.Text
   vibeDescription     String   @db.Text
@@ -102,16 +105,14 @@ model Recommendation {
   timingDescription   String   @db.Text
   practicalTips       String   @db.Text
   score               Int
-  sourceLocationId    String
-  sourceName          String   @db.VarChar(100)
   isFavorite          Boolean  @default(false)
   createdAt           DateTime @default(now())
-  userId              String
-  chatId              String?
 
-  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  chat     Chat?    @relation(fields: [chatId], references: [chatId], onDelete: SetNull)
-  location Location @relation(fields: [locationId], references: [id])
+  user User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  chat Chat? @relation(fields: [chatId], references: [chatId], onDelete: SetNull)
+
+  destinationLocation Location @relation("DestinationLocation", fields: [locationId], references: [id])
+  sourceLocation      Location @relation("SourceLocation", fields: [sourceLocationId], references: [id])
 
   @@index([userId, chatId])
 }
@@ -133,6 +134,9 @@ model Location {
   id   String @id
   name String
 
-  photos          Photo[]
-  recommendations Recommendation[]
+  photos Photo[]
+
+  recommendationsAsDest   Recommendation[] @relation("DestinationLocation")
+  recommendationsAsSource Recommendation[] @relation("SourceLocation")
+  chatsAsSource           Chat[]           @relation("SourceChats")
 }
