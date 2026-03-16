@@ -71,7 +71,6 @@ model VerificationToken {
 model Chat {
   chatId           String   @id @default(cuid())
   sourceLocationId String
-  vibe             Vibe
   userId           String
   createdAt        DateTime @default(now())
 
@@ -98,7 +97,7 @@ model Recommendation {
   chatId           String?
   userId           String
 
-  vibe                Vibe
+  vibe                Vibe[]
   description         String   @db.Text
   vibeDescription     String   @db.Text
   citySizeDescription String   @db.Text
