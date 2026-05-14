@@ -66,11 +66,7 @@ export async function getRecommendationsWithLocationByChatId({
 const recommendationWithPhotosArgs = {
   include: {
     sourceLocation: true,
-    destinationLocation: {
-      include: {
-        photos: true,
-      },
-    },
+    destinationLocation: {},
   },
 } satisfies Prisma.RecommendationDefaultArgs;
 

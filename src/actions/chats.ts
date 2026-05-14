@@ -13,13 +13,11 @@ import {
   getPhotonLocationData,
   upsertLocation,
 } from "./locations";
-import { getUnsplashPhotosForLocation } from "./photos";
 import { AIRecommendation } from "@/lib/zod/ai";
 import { Session } from "next-auth";
 import { redirect } from "next/navigation";
 import { actionClient } from "@/lib/safe-action";
 import z from "zod";
-import { QueryClient } from "@tanstack/react-query";
 import { revalidatePath } from "next/cache";
 
 const chatArgs = {
