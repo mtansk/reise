@@ -98,14 +98,14 @@ model Recommendation {
   userId           String
 
   vibe                Vibe[]
-  description         String   @db.Text
-  vibeDescription     String   @db.Text
-  citySizeDescription String   @db.Text
-  timingDescription   String   @db.Text
-  practicalTips       String   @db.Text
+  vibeDescription     String @db.Text
+  citySizeDescription String @db.Text
+  timingDescription   String @db.Text
+  practicalTips       String @db.Text
   score               Int
-  isFavorite          Boolean  @default(false)
-  createdAt           DateTime @default(now())
+
+  isFavorite Boolean  @default(false)
+  createdAt  DateTime @default(now())
 
   user User  @relation(fields: [userId], references: [id], onDelete: Cascade)
   chat Chat? @relation(fields: [chatId], references: [chatId], onDelete: SetNull)
@@ -116,24 +116,13 @@ model Recommendation {
   @@index([userId, chatId])
 }
 
-model Photo {
-  photoId    String   @id @default(cuid())
-  locationId String
-  url        String   @db.Text
-  author     String   @default("")
-  alt        String   @default("")
-  createdAt  DateTime @default(now())
-
-  location Location @relation(fields: [locationId], references: [id])
-
-  @@index([locationId])
-}
-
 model Location {
-  id   String @id
-  name String
+  id      String @id
+  name    String @default("City")
+  country String @default("Country")
 
-  photos Photo[]
+  lat Float @default(0)
+  lng Float @default(0)
 
   recommendationsAsDest   Recommendation[] @relation("DestinationLocation")
   recommendationsAsSource Recommendation[] @relation("SourceLocation")
