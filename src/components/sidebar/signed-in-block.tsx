@@ -30,7 +30,7 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { User } from "next-auth";
-import { signOut } from "@/actions/auth";
+import { signOut } from "@/server/actions/auth";
 import Image from "next/image";
 
 export function SignedInBlock({ user }: { user: User }) {

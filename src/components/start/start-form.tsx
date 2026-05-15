@@ -1,12 +1,11 @@
 "use client";
 
-import { getAiRecommendations } from "@/actions/ai-actions";
 import StartButtonGroup from "./start-button-group";
 import StartCombobox from "./start-combobox";
 import VibeToggleGroup from "./vibe-toggle-group";
 import { useState } from "react";
 import { useChatStartStore } from "@/providers/chat-start-store-provider";
-import { initializeChat } from "@/actions/chats";
+import { processChatInitializationAction } from "@/server/actions/chats";
 
 export default function StartForm() {
   const [text, setText] = useState<any>("");
@@ -23,7 +22,7 @@ export default function StartForm() {
         e.preventDefault();
         setText(
           JSON.stringify(
-            await initializeChat({
+            await processChatInitializationAction({
               location: location!,
               vibe: Array.from(vibe),
             }),

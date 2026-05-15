@@ -1,7 +1,7 @@
 "use client";
 
 import type { Vibe } from "@/generated/prisma/client";
-import { VIBES } from "@/lib/zod/location";
+import { VIBES } from "@/lib/zod/vibe";
 import { useChatStartStore } from "@/providers/chat-start-store-provider";
 import { VibeToggle } from "./vibe-toggle";
 

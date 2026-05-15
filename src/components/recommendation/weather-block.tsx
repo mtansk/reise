@@ -1,4 +1,4 @@
-import { getWeatherForLocation } from "@/actions/weather";
+import { getWeatherForLocationAction } from "@/server/actions/weather";
 import { Skeleton } from "@/components/ui/skeleton";
 import WeatherIcon from "@/components/weather-icon";
 import { Location } from "@/generated/prisma/client";
@@ -25,9 +25,12 @@ async function WeatherMain({
 }: {
   location: Location;
 }) {
-  const weather = await getWeatherForLocation(
-    location,
-  ).catch(() => null);
+  const weather = (
+    await getWeatherForLocationAction({
+      lat: location.lat,
+      lng: location.lng,
+    })
+  ).data;
 
   if (!weather) {
     return (

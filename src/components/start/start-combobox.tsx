@@ -1,6 +1,6 @@
 "use client";
 
-import { getLocationSuggestions } from "@/actions/locations";
+import { getLocationSuggestionsAction } from "@/server/actions/locations";
 import { useChatStartStore } from "@/providers/chat-start-store-provider";
 import { useDebouncedCallback } from "use-debounce";
 import {
@@ -48,9 +48,11 @@ export default function StartCombobox() {
   const debouncedGetSuggestions = useDebouncedCallback(
     async (value: string) => {
       try {
-        const results = await getLocationSuggestions({
-          query: value,
-        });
+        const results = (
+          await getLocationSuggestionsAction({
+            query: value,
+          })
+        ).data;
         actions.setSuggestions(results || []);
       } catch (error) {
         actions.setSuggestions([]);

@@ -1,5 +1,6 @@
 import type { Location } from "@/generated/prisma/client";
 import { z } from "zod";
+import { VibeArraySchema, VIBES } from "./vibe";
 
 const allowedTypes = ["city", "town", "village", "hamlet"];
 
@@ -47,23 +48,9 @@ export const LocationSchema = z.object({
   lng: z.number(),
 }) satisfies z.ZodType<Location>;
 
-export const VIBES = [
-  "history",
-  "partying",
-  "nature",
-  "family",
-  "culture",
-  "shopping",
-] as const;
-
 export const LocationWithVibeSchema = LocationSchema.extend(
   {
-    vibe: z
-      .array(z.enum(VIBES))
-      .nonempty()
-      .refine((arr) => new Set(arr).size === arr.length, {
-        message: "Vibe array must contain unique values",
-      }),
+    vibe: VibeArraySchema,
   },
 );
 

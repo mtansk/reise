@@ -8,9 +8,9 @@ import {
   HydrationBoundary,
   QueryClient,
 } from "@tanstack/react-query";
-import { getChats } from "@/actions/chats";
+import { getChatsByUserAction } from "@/server/actions/chats";
 import { auth } from "@/lib/auth";
-import { getFavoriteRecommendationsByUser } from "@/actions/recommendations";
+import { getFavoriteRecommendationsByUserAction } from "@/server/actions/recommendations";
 
 export default async function Layout({
   children,
@@ -23,14 +23,15 @@ export default async function Layout({
   await Promise.all([
     queryClient.prefetchQuery({
       queryKey: ["chats"],
-      queryFn: () => getChats(session?.user?.id || "12"),
+      queryFn: async () => {
+        return (await getChatsByUserAction()).data;
+      },
     }),
     queryClient.prefetchQuery({
       queryKey: ["favorites"],
-      queryFn: () =>
-        getFavoriteRecommendationsByUser(
-          session?.user?.id || "12",
-        ),
+      queryFn: async () =>
+        (await getFavoriteRecommendationsByUserAction())
+          .data,
     }),
   ]);
 

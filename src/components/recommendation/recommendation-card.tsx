@@ -1,4 +1,3 @@
-import { RecommendationWithLocation } from "@/actions/recommendations";
 import WeatherBlock from "@/components/recommendation/weather-block";
 import { interTight } from "@/app/layout";
 import clsx from "clsx";
@@ -17,6 +16,7 @@ import {
   MapPin,
 } from "lucide-react";
 import Link from "next/link";
+import { RecommendationWithLocation } from "@/server/functions/recommendations";
 
 export default function RecommendationCard({
   recommendation,

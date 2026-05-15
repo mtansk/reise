@@ -21,11 +21,11 @@ import {
 } from "../ui/collapsible";
 import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
-import { getChats } from "@/actions/chats";
+import { getChatsByUserAction } from "@/server/actions/chats";
 import Logo from "../logo-wrapped";
 import { User } from "next-auth";
 import { NavUser } from "./nav-user";
-import { getFavoriteRecommendationsByUser } from "@/actions/recommendations";
+import { getFavoriteRecommendationsByUserAction } from "@/server/actions/recommendations";
 
 export function AppSidebar({
   user,
@@ -35,13 +35,14 @@ export function AppSidebar({
 } & React.ComponentProps<typeof Sidebar>) {
   const { data: chats } = useQuery({
     queryKey: ["chats"],
-    queryFn: () => getChats(user?.id || "12"),
+    queryFn: async () =>
+      (await getChatsByUserAction()).data,
   });
 
   const { data: favorites } = useQuery({
     queryKey: ["favorites"],
-    queryFn: () =>
-      getFavoriteRecommendationsByUser(user?.id || "12"),
+    queryFn: async () =>
+      (await getFavoriteRecommendationsByUserAction()).data,
   });
 
   return (
@@ -49,7 +50,7 @@ export function AppSidebar({
       <SidebarHeader className="flex flex-row items-center gap-2 pb-4">
         <Logo className="h-12 w-12" />
         <span className={`text-3xl font-semibold`}>
-          Trip AI
+          <Link href="/">Trip AI</Link>
         </span>
       </SidebarHeader>
       <SidebarContent className="scrollbar-gutter-stable gap-1.5">

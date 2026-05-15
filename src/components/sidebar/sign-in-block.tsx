@@ -6,7 +6,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "../ui/sidebar";
-import { signInWithGoogle } from "@/actions/auth";
+import { signInWithGoogle } from "@/server/actions/auth";
 import { useState } from "react";
 import { Spinner } from "../ui/spinner";
 

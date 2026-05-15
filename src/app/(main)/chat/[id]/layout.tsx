@@ -1,4 +1,4 @@
-import { getChatById } from "@/actions/chats";
+import { getChatByIdAction } from "@/server/actions/chats";
 import { interTight } from "@/app/layout";
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
@@ -15,7 +15,7 @@ export default async function Layout({
 }) {
   const paramsData = await params;
 
-  const chatAction = await getChatById({
+  const chatAction = await getChatByIdAction({
     chatId: paramsData.id,
   });
 

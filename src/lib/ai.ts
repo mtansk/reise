@@ -3,6 +3,7 @@ import type {
   Vibe,
 } from "@/generated/prisma/client";
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
+import "server-only";
 
 const google = createGoogleGenerativeAI({
   apiKey: process.env.GEMINI_API_KEY,
