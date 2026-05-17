@@ -61,7 +61,7 @@ export async function getPhotonLocationData({
   city: string;
   country: string;
 }) {
-  const url = `https://photon.komoot.io/api/?q=${encodeURIComponent(`${city},${country}`)}&lang=en&limit=1`;
+  const url = `https://photon.komoot.io/api/?q=${encodeURIComponent(`${city},${country}`)}&lang=en&limit=5`;
   const res = await fetch(url);
   const data = await res.json();
 

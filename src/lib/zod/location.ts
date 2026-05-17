@@ -1,6 +1,6 @@
 import type { Location } from "@/generated/prisma/client";
 import { z } from "zod";
-import { VibeArraySchema, VIBES } from "./vibe";
+import { VibeArraySchema } from "./vibe";
 
 const allowedTypes = ["city", "town", "village", "hamlet"];
 
@@ -14,6 +14,7 @@ export const PhotonResponseSchema = z.object({
           name: z.string(),
           country: z.string(),
           osm_value: z.string(),
+          type: z.string(),
           state: z.string().optional(),
         }),
         geometry: z.object({
@@ -24,7 +25,7 @@ export const PhotonResponseSchema = z.object({
     .transform((list): Location[] =>
       list
         .filter((f) =>
-          allowedTypes.includes(f.properties.osm_value),
+          allowedTypes.includes(f.properties.type),
         )
         .map((f) => ({
           id: f.properties.osm_id.toString(),
