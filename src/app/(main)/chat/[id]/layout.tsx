@@ -43,7 +43,8 @@ export default async function Layout({
         </div>
         <div className="h-full grow"></div>
       </header>
-      <div className="py-2">{children}</div>
+      {/*  <div className="relative py-2"></div> */}
+      {children}
     </>
   );
 }

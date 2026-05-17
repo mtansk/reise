@@ -96,8 +96,8 @@ export const VIBE_CONFIG: Record<
     icon: Handbag,
     label: "Shopping",
     activeClass:
-      "border-orange-500/40 bg-orange-500/15 text-orange-900 dark:text-orange-200",
+      "border-red-500/40 bg-red-500/15 text-red-900 dark:text-red-200",
     idleClass: IDLE_CLASS,
-    particleClass: "text-orange-500",
+    particleClass: "text-red-500",
   },
 };

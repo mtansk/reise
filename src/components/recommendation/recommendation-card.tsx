@@ -24,7 +24,7 @@ export default function RecommendationCard({
   recommendation: RecommendationWithLocation;
 }) {
   return (
-    <Card className="h-min max-w-100">
+    <Card className="h-min max-w-100 min-w-80">
       <CardHeader
         className={clsx(
           `font-medium`,
