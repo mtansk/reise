@@ -1,6 +1,5 @@
 import { getRecommendationsWithLocationByChatIdAction } from "@/server/actions/recommendations";
 import RecommendationCard from "@/components/recommendation/recommendation-card";
-import { auth } from "@/lib/auth";
 import ChatContinueForm from "@/components/chat/chat-continue-form";
 
 export default async function Page({
@@ -9,11 +8,6 @@ export default async function Page({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const session = await auth();
-
-  if (!session || !session.user || !session.user.id) {
-    return null;
-  }
 
   const recommendations = (
     await getRecommendationsWithLocationByChatIdAction({
@@ -21,9 +15,11 @@ export default async function Page({
     })
   ).data;
 
+  /*   console.log(recommendations); */
+
   return (
     <>
-      <div className="flex flex-row flex-wrap justify-center gap-12 py-4">
+      <div className="flex grow flex-row flex-wrap justify-center gap-12 py-4">
         {recommendations?.map((r) => (
           <RecommendationCard
             key={r.recommendationId}
@@ -31,6 +27,7 @@ export default async function Page({
           />
         ))}
       </div>
+      <div id="bottom"></div>
       <ChatContinueForm chatId={id} />
     </>
   );

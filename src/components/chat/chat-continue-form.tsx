@@ -6,6 +6,7 @@ import { useState } from "react";
 import { VibeToggle } from "../start/vibe-toggle";
 import { Button } from "../ui/button";
 import { processNewRecommendationsForChatAction } from "@/server/actions/chats";
+import { toast } from "sonner";
 
 export default function ChatContinueForm({
   chatId,
@@ -42,12 +43,15 @@ export default function ChatContinueForm({
           className="cursor-pointer transition-all duration-300 ease-in-out hover:scale-105"
           /*        disabled={!location || vibe.size === 0} */
           onClick={async () => {
-            const res =
+            /*     const res =
               await processNewRecommendationsForChatAction({
                 chatId,
                 vibe: Array.from(vibe),
               });
-            console.log(res);
+            console.log(res); */
+            toast.error(
+              "New recommendations will appear here.",
+            );
           }}
         >
           Search

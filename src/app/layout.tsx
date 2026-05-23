@@ -7,6 +7,7 @@ import QueryClientProvider from "@/providers/query-client-provider";
 import { SessionProvider } from "next-auth/react";
 import { Suspense } from "react";
 import { ChatStartStoreProvider } from "@/providers/chat-start-store-provider";
+import { Toaster } from "sonner";
 
 export const inter = Inter({
   variable: "--font-sans",
@@ -38,15 +39,10 @@ export default function RootLayout({
       >
         <SessionProvider>
           <QueryClientProvider>
-            <TooltipProvider>
-              <ChatStartStoreProvider>
-                {/*     <Suspense fallback={<div>Loading...</div>}> */}
-                {children}
-                {/*      </Suspense> */}
-              </ChatStartStoreProvider>
-            </TooltipProvider>
+            <TooltipProvider>{children}</TooltipProvider>
           </QueryClientProvider>
         </SessionProvider>
+        <Toaster />
       </body>
     </html>
   );

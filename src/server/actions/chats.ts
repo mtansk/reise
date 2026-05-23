@@ -13,7 +13,11 @@ import {
   getChatById,
   getChatsByUser,
 } from "../functions/chats";
-import { processRecommendation } from "../functions/recommendations";
+import {
+  getRecommendationsWithLocationByChatId,
+  getRecommendationWithLocationById,
+  processRecommendation,
+} from "../functions/recommendations";
 import { getAiRecommendations } from "../functions/ai";
 import { requireAuth } from "../functions/auth";
 
@@ -95,6 +99,68 @@ export const processChatInitializationAction = actionClient
     revalidatePath("/chat", "layout");
     redirect(`/chat/${chatId}`);
   });
+
+export const processNewRecommendationsForChatAction =
+  actionClient
+    .inputSchema(
+      z.object({
+        chatId: z.string(),
+        vibe: VibeArraySchema,
+      }),
+    )
+    .use(async ({ next }) => {
+      const user = await requireAuth();
+
+      return next({
+        ctx: {
+          user,
+        },
+      });
+    })
+    .action(async ({ parsedInput, ctx }) => {
+      const { chatId, vibe } = parsedInput;
+
+      const existingRecommendations =
+        await getRecommendationsWithLocationByChatId({
+          chatId: chatId,
+          userId: ctx.user.id,
+        });
+
+      const existingDestinationLocation =
+        existingRecommendations.map(
+          (r) => r.destinationLocation,
+        );
+
+      /*     console.log(existingRecommendations); */
+
+      const newRecommendations = await getAiRecommendations(
+        {
+          location:
+            existingRecommendations[0].sourceLocation,
+          vibe,
+          excludedLocations: existingDestinationLocation,
+        },
+      );
+
+      await prisma.$transaction(async (tx) => {
+        await Promise.all(
+          newRecommendations.map((r) =>
+            processRecommendation({
+              recommendation: r,
+              sourceLocationId:
+                existingRecommendations[0].sourceLocation
+                  .id,
+              chatId: chatId,
+              userId: ctx.user.id,
+              vibe,
+              tx,
+            }),
+          ),
+        );
+      });
+
+      revalidatePath(`/chat/${chatId}`, "page");
+    });
 
 export const getChatByIdAction = actionClient
   .inputSchema(z.object({ chatId: z.string() }))

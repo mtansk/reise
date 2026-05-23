@@ -8,9 +8,11 @@ import {
   HydrationBoundary,
   QueryClient,
 } from "@tanstack/react-query";
-import { getChatsByUserAction } from "@/server/actions/chats";
 import { auth } from "@/lib/auth";
-import { getFavoriteRecommendationsByUserAction } from "@/server/actions/recommendations";
+import {
+  chatsQueryOptions,
+  favoriteRecommendationsQueryOptions,
+} from "@/lib/query-options";
 
 export default async function Layout({
   children,
@@ -21,26 +23,16 @@ export default async function Layout({
 
   const queryClient = new QueryClient();
   await Promise.all([
-    queryClient.prefetchQuery({
-      queryKey: ["chats"],
-      queryFn: async () => {
-        return (await getChatsByUserAction()).data;
-      },
-    }),
-    queryClient.prefetchQuery({
-      queryKey: ["favorites"],
-      queryFn: async () =>
-        (await getFavoriteRecommendationsByUserAction())
-          .data,
-    }),
+    queryClient.prefetchQuery(chatsQueryOptions()),
+    queryClient.prefetchQuery(
+      favoriteRecommendationsQueryOptions(),
+    ),
   ]);
 
   return (
     <SidebarProvider>
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <AppSidebar
-          /* chats={chats} */ user={session?.user}
-        />
+        <AppSidebar user={session?.user} />
 
         <SidebarInset className="h-full overflow-hidden wrap-anywhere">
           <div className="no-scrollbar relative h-[calc(100vh-1rem)]! overflow-auto px-4">

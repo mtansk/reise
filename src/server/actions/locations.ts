@@ -2,7 +2,7 @@
 import "server-only";
 
 import { actionClient } from "@/lib/safe-action";
-import z from "zod";
+import { z } from "zod";
 import { getLocationSuggestions } from "../functions/locations";
 
 export const getLocationSuggestionsAction = actionClient

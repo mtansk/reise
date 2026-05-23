@@ -15,6 +15,8 @@ export type ChatStartStore = {
     setSuggestions: (suggestions: Location[]) => void;
     setVibe: (vibe: Set<Vibe>) => void;
     setLocation: (location: Location | null) => void;
+
+    reset: () => void;
   };
 };
 
@@ -32,6 +34,14 @@ export const createChatStartStore = () => {
       setVibe: (vibe: Set<Vibe>) => set({ vibe }),
       setLocation: (location: Location | null) =>
         set({ location }),
+
+      reset: () =>
+        set({
+          query: "",
+          suggestions: [],
+          vibe: new Set(),
+          location: null,
+        }),
     },
   }));
 };

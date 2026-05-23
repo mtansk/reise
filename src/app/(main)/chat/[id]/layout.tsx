@@ -3,6 +3,7 @@ import { interTight } from "@/app/layout";
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import clsx from "clsx";
+import { Suspense } from "react";
 
 export default async function Layout({
   children,
@@ -44,7 +45,15 @@ export default async function Layout({
         <div className="h-full grow"></div>
       </header>
       {/*  <div className="relative py-2"></div> */}
-      {children}
+      <Suspense
+        fallback={
+          <div className="flex h-screen items-center justify-center">
+            Loading...
+          </div>
+        }
+      >
+        {children}
+      </Suspense>
     </>
   );
 }
