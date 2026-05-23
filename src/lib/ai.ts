@@ -35,6 +35,7 @@ export function getRecommendationsPromptString({
   3. QUANTITY: Exactly 2 recommendations.
   4. LANGUAGE: Everything must be in English. Use simple and clear language, aim at young adults.
   5. EXCLUDED LOCATIONS: Do not recommend ${excludedLocations?.map((location) => location.name).join(", ")}. Do not mention excluded locations in the output.
+  6. TIMING: Do not recommend spending the whole day in smaller cities. If you recommend a small city, give an adequate number of hours to spend there, even if it is 2 or 3 hours. 
 
   ### OUTPUT FORMAT
   Return ONLY a valid JSON array of 2 objects. No markdown blocks, no preamble. 
@@ -45,10 +46,10 @@ export function getRecommendationsPromptString({
       "cityName": "string (English)",
       "country": "string (English)",
       "vibeDescription": "4 sentences explaining why it matches vibes: ${vibe.join(", ")}.",
-      "citySizeDescription": "2-3 short sentences about scale and walkability.",
-      "timingDescription": "2-3 short sentences: how many hours to spend and what's the pace.",
-      "practicalTips": "2-3 short specific tips (e.g., best transport or a hidden spot).",
-      "score": "number (0-10) based on vibe match accuracy"
+      "citySizeDescription": "2 short sentences about scale and walkability.",
+      "timingDescription": "2 short sentences: how many hours to spend and what's the pace.",
+      "practicalTips": "2 short specific tips (e.g., best transport or a hidden spot).",
+      "score": "integer (0-10) based on vibe match accuracy"
     }
   ]
 
