@@ -61,11 +61,37 @@ export async function getPhotonLocationData({
   city: string;
   country: string;
 }) {
-  const url = `https://photon.komoot.io/api/?q=${encodeURIComponent(`${city},${country}`)}&lang=en&limit=5`;
-  const res = await fetch(url);
-  const data = await res.json();
+  const urlWithCountry = `https://photon.komoot.io/api/?q=${encodeURIComponent(`${city},${country}`)}&lang=en&limit=5`;
+  const urlCityOnly = `https://photon.komoot.io/api/?q=${encodeURIComponent(city)}&lang=en&limit=5`;
 
-  const parsedData = PhotonResponseSchema.parse(data);
-  const location: Location = parsedData.features[0];
-  return location;
+  const [resWithCountry, resCityOnly] = await Promise.all([
+    fetch(urlWithCountry)
+      .then((res) => res.json())
+      .catch(() => null),
+    fetch(urlCityOnly)
+      .then((res) => res.json())
+      .catch(() => null),
+  ]);
+
+  if (resWithCountry) {
+    const parsed =
+      PhotonResponseSchema.safeParse(resWithCountry);
+    if (parsed.success && parsed.data.features.length > 0) {
+      const location: Location = parsed.data.features[0];
+      return location;
+    }
+  }
+
+  if (resCityOnly) {
+    const parsed =
+      PhotonResponseSchema.safeParse(resCityOnly);
+    if (parsed.success && parsed.data.features.length > 0) {
+      const location: Location = parsed.data.features[0];
+      return location;
+    }
+  }
+
+  throw new Error(
+    `Photon API returned no results for city=${city}, country=${country}`,
+  );
 }
