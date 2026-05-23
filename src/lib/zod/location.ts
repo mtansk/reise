@@ -2,7 +2,19 @@ import type { Location } from "@/generated/prisma/client";
 import { z } from "zod";
 import { VibeArraySchema } from "./vibe";
 
-const allowedTypes = ["city", "town", "village", "hamlet"];
+const allowedTypes = [
+  "city",
+  "town",
+  "village",
+  "hamlet",
+
+  "district",
+  "suburb",
+  "quarter",
+
+  "island",
+  "locality",
+];
 
 export const PhotonResponseSchema = z.object({
   type: z.literal("FeatureCollection"),
