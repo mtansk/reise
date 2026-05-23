@@ -35,6 +35,9 @@ export async function getFavoriteRecommendationsByUser({
       isFavorite: true,
     },
     ...recommendationsWithLocationArgs,
+    orderBy: {
+      updatedAt: "asc",
+    },
   });
 }
 
@@ -67,6 +70,9 @@ export async function getRecommendationsWithLocationByChatId({
       userId: userId,
     },
     ...recommendationsWithLocationArgs,
+    orderBy: {
+      createdAt: "asc",
+    },
   });
 }
 
@@ -124,4 +130,24 @@ export async function processRecommendation({
   }
 
   return createdRecommendation;
+}
+
+export async function toggleIsFavorite({
+  recommendationId,
+  userId,
+  newFavoriteState,
+}: {
+  recommendationId: string;
+  userId: string;
+  newFavoriteState: boolean;
+}) {
+  return await prisma.recommendation.update({
+    where: {
+      recommendationId: recommendationId,
+      userId: userId,
+    },
+    data: {
+      isFavorite: newFavoriteState,
+    },
+  });
 }

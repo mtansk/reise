@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { RecommendationWithLocation } from "@/server/functions/recommendations";
+import LikeBlock from "./like-block";
 
 export default function RecommendationCard({
   recommendation,
@@ -61,7 +62,7 @@ export default function RecommendationCard({
           </Button>
           <Button variant={"outline"} size={"sm"} asChild>
             <Link
-              href={`https://www.google.com/search?q=${encodeURIComponent(`${recommendation?.destinationLocation.name} ${recommendation?.destinationLocation.country}` || "")}`}
+              href={`https://www.google.com/search?q=${encodeURIComponent(`${recommendation?.destinationLocation.name} ${recommendation?.destinationLocation.country} place` || "")}`}
               target="_blank"
             >
               <ImageIcon />
@@ -98,11 +99,7 @@ export default function RecommendationCard({
             </AccordionContent>
           </AccordionItem>
         </Accordion>
-
-        <p className="text-right">
-          <span className="text-3xl">{`${recommendation?.score}`}</span>
-          <span className="text-xl">/10</span>
-        </p>
+        <LikeBlock recommendation={recommendation} />
       </CardContent>
     </Card>
   );

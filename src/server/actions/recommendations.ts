@@ -6,6 +6,7 @@ import {
   getFavoriteRecommendationsByUser,
   getRecommendationsWithLocationByChatId,
   getRecommendationWithLocationById,
+  toggleIsFavorite,
 } from "../functions/recommendations";
 import z from "zod";
 import { requireAuth } from "../functions/auth";
@@ -64,3 +65,27 @@ export const getRecommendationsWithLocationByChatIdAction =
         userId: ctx.user.id,
       });
     });
+
+export const toggleIsFavoriteAction = actionClient
+  .inputSchema(
+    z.object({
+      recommendationId: z.string(),
+      newFavoriteState: z.boolean(),
+    }),
+  )
+  .use(async ({ next }) => {
+    const user = await requireAuth();
+
+    return next({
+      ctx: {
+        user,
+      },
+    });
+  })
+  .action(async ({ parsedInput, ctx }) => {
+    return await toggleIsFavorite({
+      recommendationId: parsedInput.recommendationId,
+      userId: ctx.user.id,
+      newFavoriteState: parsedInput.newFavoriteState,
+    });
+  });

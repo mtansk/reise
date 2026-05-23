@@ -21,11 +21,10 @@ import {
 } from "../ui/collapsible";
 import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
-import { getChatsByUserAction } from "@/server/actions/chats";
-import Logo from "../logo-wrapped";
 import { User } from "next-auth";
 import { NavUser } from "./nav-user";
-import { getFavoriteRecommendationsByUserAction } from "@/server/actions/recommendations";
+import { favoriteRecommendationsQueryOptions } from "@/lib/query-options";
+import { chatsQueryOptions } from "@/lib/query-options";
 
 export function AppSidebar({
   user,
@@ -33,24 +32,19 @@ export function AppSidebar({
 }: {
   user?: User;
 } & React.ComponentProps<typeof Sidebar>) {
-  const { data: chats } = useQuery({
-    queryKey: ["chats"],
-    queryFn: async () =>
-      (await getChatsByUserAction()).data,
-  });
+  const { data: chats } = useQuery(chatsQueryOptions());
 
-  const { data: favorites } = useQuery({
-    queryKey: ["favorites"],
-    queryFn: async () =>
-      (await getFavoriteRecommendationsByUserAction()).data,
-  });
+  const { data: favorites } = useQuery(
+    favoriteRecommendationsQueryOptions(),
+  );
+
+  /*   console.log(favorites); */
 
   return (
     <Sidebar variant="inset" {...props}>
       <SidebarHeader className="flex flex-row items-center gap-2 pb-4">
-        <Logo className="h-12 w-12" />
         <span className={`text-3xl font-semibold`}>
-          <Link href="/">Trip AI</Link>
+          <Link href="/">Reise.</Link>
         </span>
       </SidebarHeader>
       <SidebarContent className="scrollbar-gutter-stable gap-1.5">
@@ -64,7 +58,10 @@ export function AppSidebar({
                 className="cursor-pointer"
                 asChild
               >
-                <SidebarMenuButton size="sm">
+                <SidebarMenuButton
+                  size="sm"
+                  className="text-gray-900"
+                >
                   Favorites
                   <ChevronDown className="ml-auto rotate-90 transition-transform group-data-[state=open]/collapsible:rotate-0" />
                 </SidebarMenuButton>
@@ -90,13 +87,13 @@ export function AppSidebar({
                         </span>
                       </Link>
                     </SidebarMenuButton>
-                    <SidebarMenuAction className="opacity-0 transition-opacity duration-200 group-hover/item:opacity-100">
+                    {/*  <SidebarMenuAction className="opacity-0 transition-opacity duration-200 group-hover/item:opacity-100">
                       <Heart
                         className="size-4! cursor-pointer text-red-400"
                         fill="red"
                         size={20}
                       />
-                    </SidebarMenuAction>
+                    </SidebarMenuAction> */}
                   </SidebarMenuItem>
                 ))}
               </SidebarMenu>
@@ -113,7 +110,10 @@ export function AppSidebar({
                 className="cursor-pointer"
                 asChild
               >
-                <SidebarMenuButton size="sm">
+                <SidebarMenuButton
+                  size="sm"
+                  className="text-gray-900"
+                >
                   Origins
                   <ChevronDown className="ml-auto rotate-90 transition-transform group-data-[state=open]/collapsible:rotate-0" />
                 </SidebarMenuButton>
@@ -128,7 +128,9 @@ export function AppSidebar({
                       size="default"
                       className="text-gray-600"
                     >
-                      <Link href={`/chat/${chat.chatId}`}>
+                      <Link
+                        href={`/chat/${chat.chatId}#bottom`}
+                      >
                         <span className="truncate">
                           {chat.sourceLocation.name}
                         </span>
