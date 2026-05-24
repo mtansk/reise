@@ -5,8 +5,6 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import QueryClientProvider from "@/providers/query-client-provider";
 import { SessionProvider } from "next-auth/react";
-import { Suspense } from "react";
-import { ChatStartStoreProvider } from "@/providers/chat-start-store-provider";
 import { Toaster } from "sonner";
 
 export const inter = Inter({
@@ -20,7 +18,7 @@ export const interTight = Inter_Tight({
 });
 
 export const metadata: Metadata = {
-  title: "Trip AI",
+  title: "Reise.",
   description: "",
 };
 

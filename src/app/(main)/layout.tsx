@@ -35,7 +35,7 @@ export default async function Layout({
         <AppSidebar user={session?.user} />
 
         <SidebarInset className="h-full overflow-hidden wrap-anywhere">
-          <div className="no-scrollbar relative h-[calc(100vh-1rem)]! overflow-auto px-4">
+          <div className="no-scrollbar relative flex h-[calc(100vh-1rem)]! flex-col overflow-auto px-4">
             {children}
           </div>
         </SidebarInset>
