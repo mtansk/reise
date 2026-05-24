@@ -13,7 +13,6 @@ export default function StartButtonGroup() {
     <div>
       <StartButton
         disabled={!location || vibe.size === 0}
-        //disabled={false}
       />
     </div>
   );

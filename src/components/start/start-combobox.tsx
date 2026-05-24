@@ -21,20 +21,6 @@ import type { Location } from "@/generated/prisma/client";
 import { useRef } from "react";
 
 export default function StartCombobox() {
-  /*   const {
-    query,
-    setQuery,
-    suggestions,
-    setSuggestions,
-    setLocation,
-  } = useChatStartStore((state) => ({
-    query: state.query,
-    setQuery: state.setQuery,
-    suggestions: state.suggestions,
-    setSuggestions: state.setSuggestions,
-    setLocation: state.setLocation,
-  })); */
-
   const query = useChatStartStore((state) => state.query);
   const suggestions = useChatStartStore(
     (state) => state.suggestions,
@@ -47,16 +33,12 @@ export default function StartCombobox() {
 
   const debouncedGetSuggestions = useDebouncedCallback(
     async (value: string) => {
-      try {
-        const results = (
-          await getLocationSuggestionsAction({
-            query: value,
-          })
-        ).data;
-        actions.setSuggestions(results || []);
-      } catch (error) {
-        actions.setSuggestions([]);
-      }
+      const results = (
+        await getLocationSuggestionsAction({
+          query: value,
+        })
+      ).data;
+      actions.setSuggestions(results || []);
     },
     500,
     {
@@ -100,13 +82,17 @@ export default function StartCombobox() {
       onValueChange={handleSelection}
     >
       <ComboboxInput
-        placeholder="Search..."
+        placeholder="Starting From..."
         value={query}
         onChange={handleInputChange}
         showTrigger={false}
+        showClear={false}
         ref={inputRef}
+        className={
+          "w-80 text-2xl transition-all duration-300 focus-within:border-blue-400/50! focus-within:ring-4! focus-within:ring-blue-500/20!"
+        }
       />
-      <ComboboxContent>
+      <ComboboxContent className={"w-80! min-w-60!"}>
         <ComboboxEmpty>Type to search...</ComboboxEmpty>
         <ComboboxList>
           {suggestions.map((suggestion) => (
