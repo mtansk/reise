@@ -15,7 +15,6 @@ import {
 } from "../functions/chats";
 import {
   getRecommendationsWithLocationByChatId,
-  getRecommendationWithLocationById,
   processRecommendation,
 } from "../functions/recommendations";
 import { getAiRecommendations } from "../functions/ai";
@@ -131,9 +130,7 @@ export const processNewRecommendationsForChatAction =
           (r) => r.destinationLocation,
         );
 
-      /*     console.log(existingRecommendations); */
-
-      const newRecommendations = await getAiRecommendations(
+            const newRecommendations = await getAiRecommendations(
         {
           location:
             existingRecommendations[0].sourceLocation,
@@ -142,8 +139,9 @@ export const processNewRecommendationsForChatAction =
         },
       );
 
+      const createdRecommendations =
       await prisma.$transaction(async (tx) => {
-        await Promise.all(
+          return await Promise.all(
           newRecommendations.map((r) =>
             processRecommendation({
               recommendation: r,
@@ -159,7 +157,13 @@ export const processNewRecommendationsForChatAction =
         );
       });
 
+      if (createdRecommendations?.length !== 2) {
+        throw new Error("Failed to create recommendations");
+      }
+
       revalidatePath(`/chat/${chatId}`, "page");
+
+      return createdRecommendations;
     });
 
 export const getChatByIdAction = actionClient
