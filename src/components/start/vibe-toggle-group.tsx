@@ -3,7 +3,7 @@
 import type { Vibe } from "@/generated/prisma/client";
 import { VIBES } from "@/lib/zod/vibe";
 import { useChatStartStore } from "@/providers/chat-start-store-provider";
-import { VibeToggle } from "./vibe-toggle";
+import { VibeToggle } from "../vibe/vibe-toggle";
 
 export default function VibeToggleGroup() {
   const vibe = useChatStartStore((state) => state.vibe);

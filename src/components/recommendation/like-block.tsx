@@ -10,7 +10,7 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 import { RecommendationWithLocation } from "@/server/functions/recommendations";
-import { ParticleEffect } from "../ui/particle-effect";
+import { ParticleEffect } from "../vibe/particle-effect";
 
 export default function LikeBlock({
   recommendation,
