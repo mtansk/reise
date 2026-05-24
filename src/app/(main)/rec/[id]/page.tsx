@@ -1,6 +1,4 @@
 import { getRecommendationWithLocationByIdAction } from "@/server/actions/recommendations";
-
-import { auth } from "@/lib/auth";
 import RecommendationCard from "@/components/recommendation/recommendation-card";
 
 export default async function Page({
@@ -19,7 +17,7 @@ export default async function Page({
   }
 
   return (
-    <div className="p-16 pt-4">
+    <div className="flex grow items-center justify-center p-16 pt-4">
       <RecommendationCard recommendation={recommendation} />
     </div>
   );

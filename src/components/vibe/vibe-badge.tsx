@@ -1,5 +1,5 @@
 import type { Vibe } from "@/generated/prisma/enums";
-import { Badge } from "./ui/badge";
+import { Badge } from "../ui/badge";
 import type { LucideIcon } from "lucide-react";
 import {
   Baby,
@@ -50,6 +50,7 @@ export const VIBE_CONFIG: Record<
     activeClass: string;
     idleClass: string;
     particleClass: string;
+    bgClass: string;
   }
 > = {
   history: {
@@ -59,6 +60,7 @@ export const VIBE_CONFIG: Record<
       "border-amber-500/40 bg-amber-500/15 text-amber-900 dark:text-amber-200",
     idleClass: IDLE_CLASS,
     particleClass: "text-amber-500",
+    bgClass: "bg-amber-300",
   },
   partying: {
     icon: PartyPopper,
@@ -67,6 +69,7 @@ export const VIBE_CONFIG: Record<
       "border-pink-500/40 bg-pink-500/15 text-pink-900 dark:text-pink-200",
     idleClass: IDLE_CLASS,
     particleClass: "text-pink-500",
+    bgClass: "bg-pink-300",
   },
   nature: {
     icon: TreePine,
@@ -75,6 +78,7 @@ export const VIBE_CONFIG: Record<
       "border-emerald-500/40 bg-emerald-500/15 text-emerald-900 dark:text-emerald-200",
     idleClass: IDLE_CLASS,
     particleClass: "text-emerald-500",
+    bgClass: "bg-emerald-300",
   },
   family: {
     icon: Baby,
@@ -83,6 +87,7 @@ export const VIBE_CONFIG: Record<
       "border-blue-500/40 bg-blue-500/15 text-blue-900 dark:text-blue-200",
     idleClass: IDLE_CLASS,
     particleClass: "text-blue-500",
+    bgClass: "bg-blue-300",
   },
   culture: {
     icon: Theater,
@@ -91,6 +96,7 @@ export const VIBE_CONFIG: Record<
       "border-violet-500/40 bg-violet-500/15 text-violet-900 dark:text-violet-200",
     idleClass: IDLE_CLASS,
     particleClass: "text-violet-500",
+    bgClass: "bg-violet-300",
   },
   shopping: {
     icon: Handbag,
@@ -99,5 +105,6 @@ export const VIBE_CONFIG: Record<
       "border-red-500/40 bg-red-500/15 text-red-900 dark:text-red-200",
     idleClass: IDLE_CLASS,
     particleClass: "text-red-500",
+    bgClass: "bg-red-300",
   },
 };
