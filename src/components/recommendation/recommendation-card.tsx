@@ -8,7 +8,7 @@ import {
   AccordionTrigger,
 } from "../ui/accordion";
 import { Card, CardHeader, CardContent } from "../ui/card";
-import { VibeBadge } from "../vibe-badge";
+import { VibeBadge } from "../vibe/vibe-badge";
 import { Button } from "../ui/button";
 import {
   ArrowUpRight,
@@ -21,18 +21,28 @@ import LikeBlock from "./like-block";
 
 export default function RecommendationCard({
   recommendation,
+  latest,
 }: {
   recommendation: RecommendationWithLocation;
+  latest?: boolean;
 }) {
   return (
-    <Card className="h-min max-w-100 min-w-80">
+    <Card className="relative h-min max-w-100 min-w-80">
+      {latest && (
+        <div
+          className="absolute -top-24 left-0"
+          id="latest"
+        ></div>
+      )}
       <CardHeader
         className={clsx(
           `font-medium`,
           interTight.className,
         )}
       >
-        <h2 className="text-4xl">{`${recommendation?.destinationLocation.name}`}</h2>
+        <h2 className="text-4xl">
+          {`${recommendation?.destinationLocation.name}`}
+        </h2>
         <p className="text-xl">
           {(
             recommendation?.destinationLocation.country !==

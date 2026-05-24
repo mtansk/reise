@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronDown, Heart } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 
 import {
   Sidebar,
@@ -10,7 +10,6 @@ import {
   SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
-  SidebarMenuAction,
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
@@ -37,8 +36,6 @@ export function AppSidebar({
   const { data: favorites } = useQuery(
     favoriteRecommendationsQueryOptions(),
   );
-
-  /*   console.log(favorites); */
 
   return (
     <Sidebar variant="inset" {...props}>
@@ -80,20 +77,13 @@ export function AppSidebar({
                       className="text-gray-600"
                     >
                       <Link
-                        href={`/r/${fav.recommendationId}`}
+                        href={`/rec/${fav.recommendationId}`}
                       >
                         <span className="truncate">
                           {fav.destinationLocation.name}
                         </span>
                       </Link>
                     </SidebarMenuButton>
-                    {/*  <SidebarMenuAction className="opacity-0 transition-opacity duration-200 group-hover/item:opacity-100">
-                      <Heart
-                        className="size-4! cursor-pointer text-red-400"
-                        fill="red"
-                        size={20}
-                      />
-                    </SidebarMenuAction> */}
                   </SidebarMenuItem>
                 ))}
               </SidebarMenu>
@@ -128,9 +118,7 @@ export function AppSidebar({
                       size="default"
                       className="text-gray-600"
                     >
-                      <Link
-                        href={`/chat/${chat.chatId}#bottom`}
-                      >
+                      <Link href={`/chat/${chat.chatId}`}>
                         <span className="truncate">
                           {chat.sourceLocation.name}
                         </span>

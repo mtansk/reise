@@ -15,20 +15,22 @@ export default async function Page({
     })
   ).data;
 
-  /*   console.log(recommendations); */
-
   return (
     <>
       <div className="flex grow flex-row flex-wrap justify-center gap-12 py-4">
-        {recommendations?.map((r) => (
+        {recommendations?.map((r, i) => (
           <RecommendationCard
             key={r.recommendationId}
             recommendation={r}
+            latest={i === recommendations.length - 1}
           />
         ))}
       </div>
       <div id="bottom"></div>
-      <ChatContinueForm chatId={id} />
+      <ChatContinueForm
+        chatId={id}
+        count={recommendations?.length}
+      />
     </>
   );
 }

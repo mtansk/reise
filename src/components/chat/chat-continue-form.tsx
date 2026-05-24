@@ -2,7 +2,7 @@
 
 import type { Vibe } from "@/generated/prisma/client";
 import { VIBES } from "@/lib/zod/vibe";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { VibeToggle } from "../start/vibe-toggle";
 import { Button } from "../ui/button";
 import { processNewRecommendationsForChatAction } from "@/server/actions/chats";
@@ -10,11 +10,19 @@ import { toast } from "sonner";
 
 export default function ChatContinueForm({
   chatId,
+  count,
 }: {
   chatId: string;
+  count?: number;
 }) {
   const [vibe, setVibe] = useState<Set<Vibe>>(new Set());
 
+  useEffect(() => {
+    const bottom = document.getElementById("latest");
+    if (bottom) {
+      bottom.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [count]);
   const toggleVibe = (vibeToToggle: Vibe) => {
     const newVibes = new Set(vibe);
     if (newVibes.has(vibeToToggle)) {
