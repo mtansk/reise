@@ -3,10 +3,20 @@
 import type { Vibe } from "@/generated/prisma/client";
 import { VIBES } from "@/lib/zod/vibe";
 import { useEffect, useState } from "react";
-import { VibeToggle } from "../start/vibe-toggle";
+import { VibeToggle } from "../vibe/vibe-toggle";
 import { Button } from "../ui/button";
 import { processNewRecommendationsForChatAction } from "@/server/actions/chats";
-import { toast } from "sonner";
+import { StartButton } from "../start/start-button";
+import { useAction } from "next-safe-action/hooks";
+import { ServerCrash } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { Spinner } from "../ui/spinner";
+import { LiquidGlassBackground } from "./chat-form-glass";
+
+export type ChatFormDisplayStatus =
+  | "idle"
+  | "pending"
+  | "error";
 
 export default function ChatContinueForm({
   chatId,
@@ -23,6 +33,15 @@ export default function ChatContinueForm({
       bottom.scrollIntoView({ behavior: "smooth" });
     }
   }, [count]);
+
+  const { executeAsync, isPending, hasErrored, reset } =
+    useAction(processNewRecommendationsForChatAction);
+
+  const displayStatus: ChatFormDisplayStatus =
+    hasErrored ? "error"
+    : isPending ? "pending"
+    : "idle";
+
   const toggleVibe = (vibeToToggle: Vibe) => {
     const newVibes = new Set(vibe);
     if (newVibes.has(vibeToToggle)) {
@@ -34,37 +53,80 @@ export default function ChatContinueForm({
   };
 
   return (
-    <div className="via-background to-background sticky bottom-0 flex w-full flex-row items-center justify-center bg-linear-to-b from-transparent">
-      <div className="bg-background ring-accent mb-2 flex flex-row items-center justify-center gap-4 rounded-2xl border px-8 py-4 shadow-2xl">
-        <div className="bg-background flex max-w-md flex-wrap items-center justify-center gap-3">
-          {VIBES.map((_vibe) => (
-            <VibeToggle
-              key={_vibe}
-              vibe={_vibe}
-              pressed={vibe.has(_vibe)}
-              onPressedChange={() => toggleVibe(_vibe)}
-            />
-          ))}
+    <form
+      onSubmit={async (e) => {
+        e.preventDefault();
+        await executeAsync({
+          chatId,
+          vibe: Array.from(vibe),
+        });
+      }}
+      className="via-background to-background sticky bottom-0 flex w-full flex-row items-center justify-center bg-linear-to-b from-transparent"
+    >
+      <div
+        className={cn(
+          "ring-accent relative mb-2 flex min-h-20 w-[95%] max-w-160 flex-row items-center justify-center gap-4 overflow-hidden rounded-2xl border px-8 py-4 shadow-2xl transition-all duration-700 ease-in-out",
+          displayStatus === "pending" ?
+            "border-white/20 bg-white/5 shadow-[0_8px_32px_0_rgba(255,255,255,0.1)] backdrop-blur-2xl dark:bg-black/20 dark:shadow-[0_8px_32px_0_rgba(0,0,0,0.5)]"
+          : "bg-background",
+        )}
+      >
+        <LiquidGlassBackground
+          displayStatus={displayStatus}
+          vibes={Array.from(vibe)}
+        />
+
+        <div className="relative z-10 flex w-full flex-wrap items-center justify-center gap-3">
+          {displayStatus === "idle" && (
+            <>
+              {VIBES.map((_vibe) => (
+                <VibeToggle
+                  key={_vibe}
+                  vibe={_vibe}
+                  pressed={vibe.has(_vibe)}
+                  onPressedChange={() => toggleVibe(_vibe)}
+                />
+              ))}
+            </>
+          )}
+          {displayStatus === "pending" && (
+            <div className="animate-in fade-in zoom-in flex flex-wrap items-center justify-center gap-3 duration-500">
+              {Array.from(vibe).map((_vibe) => (
+                <VibeToggle
+                  key={_vibe}
+                  vibe={_vibe}
+                  pressed={true}
+                  onPressedChange={() => {}}
+                />
+              ))}
+            </div>
+          )}
+          {displayStatus === "error" && (
+            <div className="flex items-center justify-center gap-2 text-gray-500">
+              <ServerCrash className="" />
+              AI is unavailable. Please try again
+            </div>
+          )}
         </div>
-        <Button
-          /* type="submit" */
-          className="cursor-pointer transition-all duration-300 ease-in-out hover:scale-105"
-          /*        disabled={!location || vibe.size === 0} */
-          onClick={async () => {
-            /*     const res =
-              await processNewRecommendationsForChatAction({
-                chatId,
-                vibe: Array.from(vibe),
-              });
-            console.log(res); */
-            toast.error(
-              "New recommendations will appear here.",
-            );
-          }}
-        >
-          Search
-        </Button>
+
+        <div className="relative z-10 flex items-center justify-center">
+          {displayStatus === "idle" && (
+            <StartButton
+              title="Next"
+              disabled={!vibe.size}
+            />
+          )}
+          {displayStatus === "error" && (
+            <Button
+              onClick={() => reset()}
+              variant={"ghost"}
+            >
+              Ok
+            </Button>
+          )}
+          {displayStatus === "pending" && <Spinner />}
+        </div>
       </div>
-    </div>
+    </form>
   );
 }
