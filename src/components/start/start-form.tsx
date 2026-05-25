@@ -5,7 +5,7 @@ import StartCombobox from "./start-combobox";
 import VibeToggleGroup from "./vibe-toggle-group";
 import { useChatStartStore } from "@/providers/chat-start-store-provider";
 import { processChatInitializationAction } from "@/server/actions/chats";
-import { useAction } from "next-safe-action/hooks";
+import { useStateAction } from "next-safe-action/hooks";
 import { ChatFormDisplayStatus } from "../chat/chat-continue-form";
 import { cn } from "@/lib/utils";
 import { StartPendingBlock } from "./start-pending-block";
@@ -18,8 +18,16 @@ export default function StartForm() {
   );
   const vibe = useChatStartStore((state) => state.vibe);
 
-  const { executeAsync, isPending, hasErrored, reset } =
-    useAction(processChatInitializationAction);
+  const { formAction, isPending, hasErrored, reset } =
+    useStateAction(processChatInitializationAction);
+
+  function formActionHandler() {
+    if (!location || vibe.size === 0) return;
+    formAction({
+      location,
+      vibe: Array.from(vibe),
+    });
+  }
 
   const displayStatus: ChatFormDisplayStatus =
     hasErrored ? "error"
@@ -35,14 +43,7 @@ export default function StartForm() {
             "gap-6"
           ),
         )}
-        onSubmit={async (e) => {
-          e.preventDefault();
-          if (!location) return;
-          await executeAsync({
-            location: location,
-            vibe: Array.from(vibe),
-          });
-        }}
+        action={formActionHandler}
       >
         <LiquidGlassBackground
           displayStatus={displayStatus}

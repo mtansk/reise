@@ -52,7 +52,7 @@ export const processChatInitializationAction = actionClient
       },
     });
   })
-  .action(async ({ parsedInput, ctx }) => {
+  .stateAction(async ({ parsedInput, ctx }) => {
     const { location, vibe } = parsedInput;
 
     const aiRecommendations = await getAiRecommendations({
@@ -116,7 +116,7 @@ export const processNewRecommendationsForChatAction =
         },
       });
     })
-    .action(async ({ parsedInput, ctx }) => {
+    .stateAction(async ({ parsedInput, ctx }) => {
       const { chatId, vibe } = parsedInput;
 
       const existingRecommendations =

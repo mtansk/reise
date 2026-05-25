@@ -7,7 +7,7 @@ import { VibeToggle } from "../vibe/vibe-toggle";
 import { Button } from "../ui/button";
 import { processNewRecommendationsForChatAction } from "@/server/actions/chats";
 import { StartButton } from "../start/start-button";
-import { useAction } from "next-safe-action/hooks";
+import { useStateAction } from "next-safe-action/hooks";
 import { ServerCrash } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Spinner } from "../ui/spinner";
@@ -34,8 +34,16 @@ export default function ChatContinueForm({
     }
   }, [count]);
 
-  const { executeAsync, isPending, hasErrored, reset } =
-    useAction(processNewRecommendationsForChatAction);
+  const { formAction, isPending, hasErrored, reset } =
+    useStateAction(processNewRecommendationsForChatAction);
+
+  function formActionHandler() {
+    if (vibe.size === 0) return;
+    formAction({
+      chatId,
+      vibe: Array.from(vibe),
+    });
+  }
 
   const displayStatus: ChatFormDisplayStatus =
     hasErrored ? "error"
@@ -54,13 +62,7 @@ export default function ChatContinueForm({
 
   return (
     <form
-      onSubmit={async (e) => {
-        e.preventDefault();
-        await executeAsync({
-          chatId,
-          vibe: Array.from(vibe),
-        });
-      }}
+      action={formActionHandler}
       className="via-background to-background sticky bottom-0 flex w-full flex-row items-center justify-center bg-linear-to-b from-transparent"
     >
       <div
