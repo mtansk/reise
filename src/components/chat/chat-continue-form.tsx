@@ -6,9 +6,8 @@ import { useEffect, useState } from "react";
 import { VibeToggle } from "../vibe/vibe-toggle";
 import { Button } from "../ui/button";
 import { processNewRecommendationsForChatAction } from "@/server/actions/chats";
-import { StartButton } from "../start/start-button";
 import { useStateAction } from "next-safe-action/hooks";
-import { ServerCrash } from "lucide-react";
+import { ServerCrash, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Spinner } from "../ui/spinner";
 import { LiquidGlassBackground } from "./chat-form-glass";
@@ -113,10 +112,17 @@ export default function ChatContinueForm({
 
         <div className="relative z-10 flex items-center justify-center">
           {displayStatus === "idle" && (
-            <StartButton
-              title="Next"
+            <Button
+              type="submit"
+              className={cn(
+                "cursor-pointer rounded-full px-4 transition-all duration-300 ease-in-out hover:scale-105",
+              )}
               disabled={!vibe.size}
-            />
+              size="lg"
+            >
+              <Sparkles strokeWidth={2} />
+              <span>Next</span>
+            </Button>
           )}
           {displayStatus === "error" && (
             <Button

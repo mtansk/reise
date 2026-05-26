@@ -11,6 +11,7 @@ import { cn } from "@/lib/utils";
 import { StartPendingBlock } from "./start-pending-block";
 import { StartErrorBlock } from "./start-error-block";
 import { LiquidGlassBackground } from "./start-glass";
+import { motion } from "framer-motion";
 
 export default function StartForm() {
   const location = useChatStartStore(
@@ -35,7 +36,35 @@ export default function StartForm() {
     : "idle";
 
   return (
-    <div className="relative flex w-full grow flex-col items-center justify-center">
+    <div className="flex w-full grow flex-col items-center justify-center gap-12">
+      {!location && displayStatus === "idle" && (
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
+          className={cn(
+            "text-4xl tracking-tight text-slate-900 md:text-6xl dark:text-white",
+          )}
+        >
+          <span className="font-extrabold">
+            Where do you start?
+          </span>
+        </motion.h1>
+      )}
+      {location && displayStatus === "idle" && (
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
+          className={cn(
+            "text-4xl tracking-tight text-slate-900 md:text-6xl dark:text-white",
+          )}
+        >
+          <span className="font-extrabold">
+            What is your vibe?
+          </span>
+        </motion.h1>
+      )}
       <form
         className={cn(
           "relative flex w-full flex-col items-center justify-center transition-all duration-1000 ease-in-out",

@@ -82,17 +82,25 @@ export default function StartCombobox() {
       onValueChange={handleSelection}
     >
       <ComboboxInput
-        placeholder="Starting From..."
+        placeholder="Type..."
         value={query}
         onChange={handleInputChange}
         showTrigger={false}
         showClear={false}
         ref={inputRef}
+        style={{
+          fontSize: "1.5rem", // 48px
+          lineHeight: "1",
+          padding: "-2rem 0",
+        }}
         className={
-          "w-80 text-2xl transition-all duration-300 focus-within:border-blue-400/50! focus-within:ring-4! focus-within:ring-blue-500/20!"
+          "w-9/10 max-w-120 rounded-4xl px-10 py-6 transition-all duration-300 focus-within:border-blue-400/50! focus-within:ring-4! focus-within:ring-blue-500/20!"
         }
-      />
-      <ComboboxContent className={"w-80! min-w-60!"}>
+      ></ComboboxInput>
+      <ComboboxContent
+        className={"mt-4 rounded-2xl"}
+        anchor={inputRef}
+      >
         <ComboboxEmpty>Type to search...</ComboboxEmpty>
         <ComboboxList>
           {suggestions.map((suggestion) => (
