@@ -21,6 +21,7 @@ const nextConfig: NextConfig = {
       fullUrl: true,
     },
   },
+  allowedDevOrigins: ["192.168.0.94"],
 };
 
 export default nextConfig;
