@@ -6,13 +6,14 @@ export function chatsQueryOptions() {
   return queryOptions({
     queryKey: ["chats"],
     queryFn: async () =>
-      (await getChatsByUserAction()).data,
+      (await getChatsByUserAction()).data ?? [],
   });
 }
 export function favoriteRecommendationsQueryOptions() {
   return queryOptions({
     queryKey: ["favorites"],
     queryFn: async () =>
-      (await getFavoriteRecommendationsByUserAction()).data,
+      (await getFavoriteRecommendationsByUserAction())
+        .data ?? [],
   });
 }

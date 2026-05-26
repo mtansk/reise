@@ -8,7 +8,9 @@ export default async function Layout({
   return (
     <>
       <Header />
-      {children}
+      <div className="relative flex w-full grow flex-col items-center justify-center">
+        {children}
+      </div>
     </>
   );
 }
