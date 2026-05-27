@@ -2,7 +2,12 @@
 
 import { cn } from "@/lib/utils";
 import type { LucideIcon } from "lucide-react";
-import React, { useEffect, useRef, useState } from "react";
+import React, {
+  useEffect,
+  useRef,
+  useState,
+  useCallback,
+} from "react";
 
 interface ParticleEffectProps extends React.HTMLAttributes<HTMLDivElement> {
   icon: LucideIcon;
@@ -22,18 +27,24 @@ export function ParticleEffect({
   const [particles, setParticles] = useState<
     { id: number }[]
   >([]);
+  const idCounter = useRef(0);
 
-  const handleClick = (
-    e: React.MouseEvent<HTMLDivElement>,
-  ) => {
-    onClick?.(e);
+  const handleClick = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      onClick?.(e);
 
-    const newParticles = Array.from({ length: count }).map(
-      () => ({
-        id: Math.random(),
-      }),
-    );
-    setParticles((prev) => [...prev, ...newParticles]);
+      const newParticles = Array.from({
+        length: count,
+      }).map(() => ({
+        id: idCounter.current++,
+      }));
+      setParticles((prev) => [...prev, ...newParticles]);
+    },
+    [count, onClick],
+  );
+
+  const removeParticle = (id: number) => {
+    setParticles((prev) => prev.filter((p) => p.id !== id));
   };
 
   return (
@@ -49,11 +60,7 @@ export function ParticleEffect({
           key={p.id}
           icon={icon}
           colorClass={colorClass}
-          onComplete={() => {
-            setParticles((prev) =>
-              prev.filter((x) => x.id !== p.id),
-            );
-          }}
+          onComplete={() => removeParticle(p.id)}
         />
       ))}
     </div>
@@ -70,8 +77,10 @@ function Particle({
   onComplete: () => void;
 }) {
   const nodeRef = useRef<HTMLDivElement>(null);
+  const isMounted = useRef(true);
 
   useEffect(() => {
+    isMounted.current = true;
     const node = nodeRef.current;
     if (!node) return;
 
@@ -84,6 +93,8 @@ function Particle({
     let frame: number;
 
     const update = () => {
+      if (!isMounted.current) return;
+
       x += vx;
       y += vy;
       r += vr;
@@ -94,8 +105,10 @@ function Particle({
         opacity = Math.max(0, 1 - (y - 20) / 40);
       }
 
-      node.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px)) rotate(${r}deg)`;
-      node.style.opacity = opacity.toString();
+      if (node) {
+        node.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px)) rotate(${r}deg)`;
+        node.style.opacity = opacity.toString();
+      }
 
       if (y > 60 || opacity <= 0) {
         onComplete();
@@ -105,14 +118,17 @@ function Particle({
     };
 
     frame = requestAnimationFrame(update);
-    return () => cancelAnimationFrame(frame);
+    return () => {
+      isMounted.current = false;
+      cancelAnimationFrame(frame);
+    };
   }, []);
 
   return (
     <div
       ref={nodeRef}
       className={cn(
-        "pointer-events-none absolute top-1/2 left-1/2 z-50 -mt-2",
+        "pointer-events-none absolute top-1/2 left-1/2 z-5000 -mt-2",
         colorClass,
       )}
     >
