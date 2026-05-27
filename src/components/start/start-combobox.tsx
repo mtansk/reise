@@ -94,7 +94,7 @@ export default function StartCombobox() {
           padding: "-2rem 0",
         }}
         className={
-          "w-9/10 max-w-120 rounded-4xl px-10 py-6 transition-all duration-300 focus-within:border-blue-400/50! focus-within:ring-4! focus-within:ring-blue-500/20!"
+          "w-full max-w-120 rounded-4xl px-4 py-6 transition-all duration-300 focus-within:border-blue-400/50! focus-within:ring-4! focus-within:ring-blue-500/20! md:px-10"
         }
       ></ComboboxInput>
       <ComboboxContent

@@ -27,7 +27,7 @@ export default function RecommendationCard({
   latest?: boolean;
 }) {
   return (
-    <Card className="relative h-min max-w-100 min-w-80">
+    <Card className="relative h-min w-full max-w-90">
       {latest && (
         <div
           className="absolute -top-24 left-0"

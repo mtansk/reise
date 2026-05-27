@@ -59,6 +59,7 @@ async function WeatherMain({
           date={date}
           maxTemp={weather.daily.temperature_2m_max[index]}
           weatherCode={weather.daily.weather_code[index]}
+          index={index}
         />
       ))}
     </div>
@@ -77,16 +78,22 @@ function OneDayBlock({
   date,
   maxTemp,
   weatherCode,
+  index,
 }: {
   date: string;
   maxTemp: number;
   weatherCode: number;
+  index: number;
 }) {
   const _date = `${date.split("-")[2]}.${date.split("-")[1]}`;
 
   return (
     <div className="relative flex flex-col items-center gap-0.5">
-      <div className="text-xs">{_date}</div>
+      <div className="text-xs">
+        {index === 0 || date.split("-")[2] === "01" ?
+          _date
+        : date.split("-")[2]}
+      </div>
       <div>
         <WeatherIcon
           code={weatherCode}

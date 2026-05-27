@@ -14,13 +14,13 @@ export function LiquidGlassBackground({
   if (displayStatus !== "pending") return null;
 
   return (
-    <div className="absolute inset-0 z-0 overflow-hidden opacity-70 mix-blend-multiply transition-opacity duration-1000 dark:mix-blend-color-dodge">
+    <div className="absolute inset-0 z-0 overflow-hidden rounded-2xl opacity-70 transition-opacity duration-1000">
       {vibes.length > 0 ?
         vibes.map((v, i) => (
           <div
             key={v}
             className={cn(
-              "animate-blob absolute -top-10 h-40 w-40 rounded-full blur-3xl",
+              "animate-blob absolute -top-10 z-100 h-40 w-40 rounded-full blur-3xl",
               VIBE_CONFIG[v].bgClass,
               i % 3 === 1 ? "animation-delay-2000 left-10"
               : i % 3 === 2 ?
@@ -31,9 +31,9 @@ export function LiquidGlassBackground({
           />
         ))
       : <>
-          <div className="animate-blob absolute top-0 -left-4 h-40 w-40 rounded-full bg-purple-500/50 blur-3xl"></div>
-          <div className="animate-blob animation-delay-2000 absolute top-0 -right-4 h-40 w-40 rounded-full bg-blue-500/50 blur-3xl"></div>
-          <div className="animate-blob animation-delay-4000 absolute -bottom-8 left-20 h-40 w-40 rounded-full bg-pink-500/50 blur-3xl"></div>
+          <div className="animate-blob absolute top-0 -left-4 h-40 w-40 rounded-full bg-purple-500/60 blur-3xl"></div>
+          <div className="animate-blob animation-delay-2000 absolute top-0 -right-4 h-40 w-40 rounded-full bg-blue-500/60 blur-3xl"></div>
+          <div className="animate-blob animation-delay-4000 absolute -bottom-8 left-20 h-40 w-40 rounded-full bg-pink-500/60 blur-3xl"></div>
         </>
       }
     </div>

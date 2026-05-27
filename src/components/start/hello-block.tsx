@@ -34,7 +34,7 @@ export function HelloBlock() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, ease: "easeOut" }}
         className={cn(
-          "text-5xl tracking-tight text-slate-900 md:text-6xl dark:text-white",
+          "text-5xl tracking-tight wrap-normal text-slate-900 md:text-6xl dark:text-white",
         )}
       >
         <span className="font-extrabold">Reise. </span>

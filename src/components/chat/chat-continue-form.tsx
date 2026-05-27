@@ -66,9 +66,9 @@ export default function ChatContinueForm({
     >
       <div
         className={cn(
-          "ring-accent relative mb-2 flex min-h-20 w-[95%] max-w-160 flex-row items-center justify-center gap-4 overflow-hidden rounded-2xl border px-8 py-4 shadow-2xl transition-all duration-700 ease-in-out",
+          "ring-accent will-change-backdrop relative mx-2 mb-4 flex min-h-20 w-full max-w-160 transform-gpu flex-col items-center justify-center gap-4 rounded-2xl border px-2 py-2 pt-4 shadow-2xl transition-all duration-700 ease-in-out md:flex-row md:gap-4 md:px-8 md:py-4",
           displayStatus === "pending" ?
-            "border-white/20 bg-white/5 shadow-[0_8px_32px_0_rgba(255,255,255,0.1)] backdrop-blur-2xl dark:bg-black/20 dark:shadow-[0_8px_32px_0_rgba(0,0,0,0.5)]"
+            "border-white/20 bg-white/5 backdrop-blur-2xl dark:bg-black/20 dark:shadow-[0_8px_32px_0_rgba(0,0,0,0.5)]"
           : "bg-background",
         )}
       >

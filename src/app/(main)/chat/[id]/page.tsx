@@ -17,16 +17,17 @@ export default async function Page({
 
   return (
     <>
-      <div className="flex grow flex-row flex-wrap justify-center gap-12 py-4">
-        {recommendations?.map((r, i) => (
-          <RecommendationCard
-            key={r.recommendationId}
-            recommendation={r}
-            latest={i === recommendations.length - 1}
-          />
-        ))}
+      <div className="flex grow justify-center p-4">
+        <div className="flex w-full max-w-200 grow flex-row flex-wrap justify-center gap-12">
+          {recommendations?.map((r, i) => (
+            <RecommendationCard
+              key={r.recommendationId}
+              recommendation={r}
+              latest={i === recommendations.length - 1}
+            />
+          ))}
+        </div>
       </div>
-      <div id="bottom"></div>
       <ChatContinueForm
         chatId={id}
         count={recommendations?.length}

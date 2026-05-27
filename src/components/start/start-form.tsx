@@ -43,7 +43,7 @@ export default function StartForm() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: "easeOut" }}
           className={cn(
-            "text-4xl tracking-tight text-slate-900 md:text-6xl dark:text-white",
+            "text-center text-4xl tracking-tight text-slate-900 md:text-6xl dark:text-white",
           )}
         >
           <span className="font-extrabold">
@@ -57,7 +57,7 @@ export default function StartForm() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: "easeOut" }}
           className={cn(
-            "text-4xl tracking-tight text-slate-900 md:text-6xl dark:text-white",
+            "text-center text-4xl tracking-tight text-slate-900 md:text-6xl dark:text-white",
           )}
         >
           <span className="font-extrabold">
