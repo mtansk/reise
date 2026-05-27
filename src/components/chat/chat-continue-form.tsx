@@ -91,7 +91,7 @@ export default function ChatContinueForm({
             </>
           )}
           {displayStatus === "pending" && (
-            <div className="animate-in fade-in zoom-in flex flex-wrap items-center justify-center gap-3 duration-500">
+            <div className="flex flex-wrap items-center justify-center gap-3 duration-500">
               {Array.from(vibe).map((_vibe) => (
                 <VibeToggle
                   key={_vibe}

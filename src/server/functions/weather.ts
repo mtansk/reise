@@ -4,7 +4,6 @@ import {
   WeatherResponse,
   WeatherResponseSchema,
 } from "@/lib/zod/weather";
-import { cacheLife, cacheTag } from "next/cache";
 
 export async function getWeatherForLocation({
   lat,
@@ -13,10 +12,6 @@ export async function getWeatherForLocation({
   lat: number;
   lng: number;
 }): Promise<WeatherResponse | null> {
-  "use cache";
-  cacheLife("hours");
-  cacheTag(`weather-${lat}-${lng}`);
-
   const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&daily=temperature_2m_max,weather_code&timezone=auto`;
 
   const res = await fetch(url, {
@@ -26,7 +21,9 @@ export async function getWeatherForLocation({
     },
     next: {
       tags: [`weather-${lat}-${lng}`],
+      revalidate: 60 * 60,
     },
+    cache: "force-cache",
   });
 
   const data = await res.json();
