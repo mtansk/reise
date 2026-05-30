@@ -4,13 +4,15 @@ import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
-    SidebarHeader,
-  } from "@/components/ui/sidebar";
+  SidebarHeader,
+} from "@/components/ui/sidebar";
 import Link from "next/link";
 import { User } from "next-auth";
 import { NavUser } from "./nav-user";
 import { FavoritesBlock } from "./favorites-block";
 import { ChatsBlock } from "./chats-block";
+import { Suspense } from "react";
+import { Skeleton } from "../ui/skeleton";
 
 export function AppSidebar({
   user,
@@ -21,15 +23,19 @@ export function AppSidebar({
   return (
     <Sidebar variant="inset" {...props}>
       <SidebarHeader className="flex flex-row items-center gap-2 pb-4">
-        <span className={`text-3xl font-semibold`}>
+        <h1 className={`text-3xl font-semibold`}>
           <Link href="/">Reise.</Link>
-        </span>
+        </h1>
       </SidebarHeader>
       <SidebarContent className="scrollbar-gutter-stable gap-1.5">
         {user && (
           <>
-            <FavoritesBlock />
-            <ChatsBlock />
+            <Suspense
+              fallback={<SidebarSuspenseSkeleton />}
+            >
+              <FavoritesBlock />
+              <ChatsBlock />
+            </Suspense>
           </>
         )}
         {!user && (
@@ -43,4 +49,10 @@ export function AppSidebar({
       </SidebarFooter>
     </Sidebar>
   );
+}
+
+function SidebarSuspenseSkeleton() {
+  return Array.from({ length: 8 }).map((_, i) => (
+    <Skeleton key={i} className="h-6 w-full"></Skeleton>
+  ));
 }

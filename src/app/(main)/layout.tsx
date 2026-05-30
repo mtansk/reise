@@ -6,12 +6,12 @@ import {
 import {
   dehydrate,
   HydrationBoundary,
-  QueryClient,
 } from "@tanstack/react-query";
 import { auth } from "@/lib/auth";
 import {
   chatsQueryOptions,
   favoriteRecommendationsQueryOptions,
+  makeQueryClient,
 } from "@/lib/query-options";
 
 export default async function Layout({
@@ -21,13 +21,12 @@ export default async function Layout({
 }) {
   const session = await auth();
 
-  const queryClient = new QueryClient();
-  await Promise.all([
-    queryClient.prefetchQuery(chatsQueryOptions()),
-    queryClient.prefetchQuery(
-      favoriteRecommendationsQueryOptions(),
-    ),
-  ]);
+  const queryClient = makeQueryClient();
+
+  queryClient.prefetchQuery(chatsQueryOptions());
+  queryClient.prefetchQuery(
+    favoriteRecommendationsQueryOptions(),
+  );
 
   return (
     <SidebarProvider>

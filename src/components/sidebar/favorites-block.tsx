@@ -1,7 +1,7 @@
 "use client";
 
 import { favoriteRecommendationsQueryOptions } from "@/lib/query-options";
-import { useQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import {
@@ -18,7 +18,7 @@ import {
 } from "../ui/sidebar";
 
 export function FavoritesBlock() {
-  const { data: favorites } = useQuery(
+  const { data: favorites } = useSuspenseQuery(
     favoriteRecommendationsQueryOptions(),
   );
 

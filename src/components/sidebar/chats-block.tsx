@@ -1,7 +1,6 @@
 "use client";
 
 import { chatsQueryOptions } from "@/lib/query-options";
-import { useQuery } from "@tanstack/react-query";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import {
@@ -16,9 +15,12 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "../ui/sidebar";
+import { useSuspenseQuery } from "@tanstack/react-query";
 
 export function ChatsBlock() {
-  const { data: chats } = useQuery(chatsQueryOptions());
+  const { data: chats } = useSuspenseQuery(
+    chatsQueryOptions(),
+  );
 
   return (
     <Collapsible defaultOpen className="group/collapsible">
@@ -39,14 +41,17 @@ export function ChatsBlock() {
         </SidebarGroupLabel>
         <CollapsibleContent>
           <SidebarMenu>
-            {chats?.map((chat) => (
+            {chats?.map((chat, i) => (
               <SidebarMenuItem key={chat.chatId}>
                 <SidebarMenuButton
                   asChild
                   size="default"
                   className="text-gray-600"
                 >
-                  <Link href={`/chat/${chat.chatId}`}>
+                  <Link
+                    href={`/chat/${chat.chatId}`}
+                    prefetch={i < 5}
+                  >
                     <span className="truncate">
                       {chat.sourceLocation.name}
                     </span>

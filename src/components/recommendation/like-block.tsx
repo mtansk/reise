@@ -6,7 +6,7 @@ import { toggleIsFavoriteAction } from "@/server/actions/recommendations";
 import { favoriteRecommendationsQueryOptions } from "@/lib/query-options";
 import {
   useMutation,
-  useQuery,
+  useSuspenseQuery,
   useQueryClient,
 } from "@tanstack/react-query";
 import { RecommendationWithLocation } from "@/server/functions/recommendations";
@@ -19,7 +19,7 @@ export default function LikeBlock({
 }) {
   const queryClient = useQueryClient();
 
-  const { data: favorites } = useQuery(
+  const { data: favorites } = useSuspenseQuery(
     favoriteRecommendationsQueryOptions(),
   );
 
