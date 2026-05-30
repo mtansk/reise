@@ -15,6 +15,12 @@ export default async function Page({
     })
   ).data;
 
+  if (!recommendations || recommendations.length === 0) {
+    throw new Error(
+      `No recommendations found for this chat.`,
+    );
+  }
+
   return (
     <>
       <div className="flex grow justify-center p-4">
@@ -28,6 +34,7 @@ export default async function Page({
           ))}
         </div>
       </div>
+
       <ChatContinueForm
         chatId={id}
         count={recommendations?.length}

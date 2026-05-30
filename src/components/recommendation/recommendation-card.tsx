@@ -18,6 +18,7 @@ import {
 import Link from "next/link";
 import { RecommendationWithLocation } from "@/server/functions/recommendations";
 import LikeBlock from "./like-block";
+import { Skeleton } from "../ui/skeleton";
 
 export default function RecommendationCard({
   recommendation,
@@ -110,6 +111,21 @@ export default function RecommendationCard({
           </AccordionItem>
         </Accordion>
         <LikeBlock recommendation={recommendation} />
+      </CardContent>
+    </Card>
+  );
+}
+
+export function RecommendationCardSkeleton() {
+  return (
+    <Card className="relative h-min w-full max-w-90">
+      <CardHeader>
+        <Skeleton className="h-8 w-2/3 rounded-full" />
+        <Skeleton className="h-6 w-1/2 rounded-full" />
+      </CardHeader>
+      <CardContent>
+        <Skeleton className="h-50 w-full rounded-2xl" />
+        <Skeleton className="mt-4 h-50 w-full rounded-2xl" />
       </CardContent>
     </Card>
   );

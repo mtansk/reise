@@ -3,6 +3,7 @@ import clsx from "clsx";
 import { Suspense } from "react";
 import { Header } from "@/components/header";
 import { getRecommendationWithLocationByIdAction } from "@/server/actions/recommendations";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default async function Layout({
   children,
@@ -15,32 +16,37 @@ export default async function Layout({
 }) {
   const { id } = await params;
 
-  const recommendation = (
-    await getRecommendationWithLocationByIdAction({ id })
-  ).data;
-
-  if (!recommendation) {
-    throw new Error("Recommendation not found");
-  }
-
   return (
     <>
       <Header>
-        <h2
-          className={clsx(interTight.className, "text-2xl")}
+        <Suspense
+          fallback={<Skeleton className="h-6 w-32" />}
         >
-          {`From ${recommendation.sourceLocation.name}`}
-        </h2>
+          <HeaderInset recommendationId={id} />
+        </Suspense>
       </Header>
-      <Suspense
-        fallback={
-          <div className="flex h-screen items-center justify-center">
-            Loading...
-          </div>
-        }
-      >
-        {children}
-      </Suspense>
+
+      {children}
     </>
+  );
+}
+
+async function HeaderInset({
+  recommendationId,
+}: {
+  recommendationId: string;
+}) {
+  const action =
+    await getRecommendationWithLocationByIdAction({
+      id: recommendationId,
+    });
+  const recommendation = action.data;
+
+  return (
+    <h2 className={clsx(interTight.className, "text-2xl")}>
+      {recommendation ?
+        `From ${recommendation.sourceLocation.name}`
+      : "Not Found"}
+    </h2>
   );
 }

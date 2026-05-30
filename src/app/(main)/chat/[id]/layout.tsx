@@ -3,6 +3,7 @@ import { interTight } from "@/app/layout";
 import clsx from "clsx";
 import { Suspense } from "react";
 import { Header } from "@/components/header";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default async function Layout({
   children,
@@ -15,32 +16,32 @@ export default async function Layout({
 }) {
   const paramsData = await params;
 
+  return (
+    <>
+      <Header>
+        <Suspense
+          fallback={<Skeleton className="h-6 w-32" />}
+        >
+          <HeaderInset chatId={paramsData.id} />
+        </Suspense>
+      </Header>
+      {children}
+    </>
+  );
+}
+
+async function HeaderInset({ chatId }: { chatId: string }) {
   const chatAction = await getChatByIdAction({
-    chatId: paramsData.id,
+    chatId,
   });
 
   const chat = chatAction.data;
 
-  if (!chat) return null;
-
   return (
-    <>
-      <Header>
-        <h2
-          className={clsx(interTight.className, "text-2xl")}
-        >
-          {`From ${chat.sourceLocation.name}`}
-        </h2>
-      </Header>
-      <Suspense
-        fallback={
-          <div className="flex h-screen items-center justify-center">
-            Loading...
-          </div>
-        }
-      >
-        {children}
-      </Suspense>
-    </>
+    <h2 className={clsx(interTight.className, "text-2xl")}>
+      {chat ?
+        `From ${chat.sourceLocation.name}`
+      : "Not Found"}
+    </h2>
   );
 }
