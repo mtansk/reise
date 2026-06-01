@@ -25,26 +25,40 @@ async function WeatherMain({
 }: {
   location: Location;
 }) {
-  /*   const weather = (
+  if (false) {
+    return (
+      <div
+        className={cn(
+          weatherBlockSize,
+          "flex items-center justify-center gap-2 text-gray-500",
+        )}
+      >
+        <ServerCrash className="" />
+        Weather data unavailable
+      </div>
+    );
+  }
+
+  const weather = (
     await getWeatherForLocationAction({
       lat: location.lat,
       lng: location.lng,
     })
   ).data;
 
-  if (!weather) { */
-  return (
-    <div
-      className={cn(
-        weatherBlockSize,
-        "flex items-center justify-center gap-2 text-gray-500",
-      )}
-    >
-      <ServerCrash className="" />
-      Weather data unavailable
-    </div>
-  );
-  /*   } */
+  if (!weather) {
+    return (
+      <div
+        className={cn(
+          weatherBlockSize,
+          "flex items-center justify-center gap-2 text-gray-500",
+        )}
+      >
+        <ServerCrash className="" />
+        Weather data unavailable
+      </div>
+    );
+  }
 
   return (
     <div

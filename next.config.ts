@@ -17,7 +17,11 @@ const nextConfig: NextConfig = {
       fullUrl: true,
     },
   },
-  allowedDevOrigins: ["192.168.0.94"],
+  allowedDevOrigins: ["192.168.0.94", "192.168.0.31"],
+  typescript: {
+    ignoreBuildErrors: false,
+  },
+  output: "standalone",
 };
 
 export default nextConfig;
