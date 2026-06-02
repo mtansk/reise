@@ -9,7 +9,7 @@ export const proxy = auth(async (req) => {
 
 export const config = {
   matcher: [
-    // Exclude API routes, static files, image optimizations, and .png files
-    "/((?!api|_next/static|_next/image|.*\\.png$).*)",
+    // Exclude API routes, static files, image optimizations, .png files, robots.txt and sitemap.xml
+    "/((?!api|_next/static|_next/image|.*\\.png$|robots.txt|sitemap.xml).*)",
   ],
 };

@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
       disallow: ["/rec/", "/chat/", "/auth/", "/settings/"],
     },
-    sitemap: "https://mtansk.com/sitemap.xml",
+    sitemap: "https://ai.mtansk.com/sitemap.xml",
   };
 }
