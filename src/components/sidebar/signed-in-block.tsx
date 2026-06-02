@@ -1,12 +1,9 @@
 "use client";
 
 import {
-  BadgeCheck,
-  Bell,
   ChevronsUpDown,
-  CreditCard,
   LogOut,
-  Sparkles,
+  Trash,
 } from "lucide-react";
 
 import {
@@ -17,7 +14,6 @@ import {
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
@@ -30,7 +26,10 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { User } from "next-auth";
-import { signOut } from "@/server/actions/auth";
+import {
+  deleteUserAndAllDataAction,
+  signOut,
+} from "@/server/actions/auth";
 import Image from "next/image";
 
 export function SignedInBlock({ user }: { user: User }) {
@@ -46,22 +45,18 @@ export function SignedInBlock({ user }: { user: User }) {
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               <Avatar className="h-8 w-8 rounded-lg">
-                {/*  <AvatarImage
-                  src={user.image || ""}
-                  alt={user.name || "User Avatar"}
-                /> */}
                 <AvatarImage
                   asChild
                   className="relative"
                   src={user.image || ""}
                 >
                   <Image
-                    src={user.image || ""} // Лучше иметь fallback-путь
+                    src={user.image || ""}
                     alt={user.name || "User Avatar"}
                     fill
-                    sizes="32px" // Важно для оптимизации: говорим Next, что картинка маленькая
-                    className="relative object-cover" // Чтобы лицо не сплющило, если фото не квадратное
-                    priority // Если это аватар в шапке, стоит добавить priority
+                    sizes="32px"
+                    className="relative object-cover"
+                    priority
                   />
                 </AvatarImage>
                 <AvatarFallback className="rounded-lg"></AvatarFallback>
@@ -91,7 +86,7 @@ export function SignedInBlock({ user }: { user: User }) {
                     alt={user.name || "User Avatar"}
                   />
                   <AvatarFallback className="rounded-lg">
-                    CN
+                    AI
                   </AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
@@ -105,6 +100,14 @@ export function SignedInBlock({ user }: { user: User }) {
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
+            <DropdownMenuItem
+              onClick={async () => {
+                await deleteUserAndAllDataAction();
+              }}
+            >
+              <Trash />
+              Delete Account
+            </DropdownMenuItem>
             <DropdownMenuItem
               onClick={async () => {
                 await signOut();
