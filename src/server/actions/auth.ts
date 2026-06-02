@@ -4,6 +4,10 @@ import "server-only";
 import { auth, signIn } from "@/lib/auth";
 import { signOut as _signOut } from "@/lib/auth";
 import { actionClient } from "@/lib/safe-action";
+import {
+  deleteUserAndAllData,
+  requireAuth,
+} from "../functions/auth";
 
 export async function signInWithGoogle() {
   const guest = await auth();
@@ -29,3 +33,21 @@ export const signInAsGuest = actionClient.stateAction(
     await signIn("credentials", {});
   },
 );
+
+export const deleteUserAndAllDataAction = actionClient
+  .use(async ({ next }) => {
+    const user = await requireAuth();
+
+    return next({
+      ctx: {
+        user,
+      },
+    });
+  })
+  .action(async ({ ctx }) => {
+    await deleteUserAndAllData({
+      userId: ctx.user.id,
+    });
+
+    return true;
+  });

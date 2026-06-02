@@ -1,6 +1,6 @@
 import "server-only";
 
-import { auth } from "@/lib/auth";
+import { auth, signOut } from "@/lib/auth";
 import { UserWithIdSchema } from "@/lib/zod/user";
 import prisma from "../../../lib/prisma";
 
@@ -60,6 +60,34 @@ export async function mergeGuestWithUser({
       where: { id: guest.id },
     });
   });
+
+  return true;
+}
+
+export async function deleteUserAndAllData({
+  userId,
+}: {
+  userId: string;
+}) {
+  await prisma.$transaction(async (prisma) => {
+    await prisma.recommendation.deleteMany({
+      where: { userId },
+    });
+
+    await prisma.chat.deleteMany({
+      where: { userId },
+    });
+
+    await prisma.account.deleteMany({
+      where: { userId },
+    });
+
+    await prisma.user.delete({
+      where: { id: userId },
+    });
+  });
+
+  await signOut();
 
   return true;
 }
