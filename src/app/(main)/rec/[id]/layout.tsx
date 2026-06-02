@@ -1,4 +1,4 @@
-import { interTight } from "@/app/layout";
+import { interTight } from "@/app/fonts";
 import clsx from "clsx";
 import { Suspense } from "react";
 import { Header } from "@/components/header";

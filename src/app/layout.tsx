@@ -1,25 +1,22 @@
 import type { Metadata } from "next";
-import { Inter, Inter_Tight } from "next/font/google";
 import "./globals.css";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import QueryClientProvider from "@/providers/query-client-provider";
 import { SessionProvider } from "next-auth/react";
 import { Toaster } from "sonner";
-
-export const inter = Inter({
-  variable: "--font-sans",
-  subsets: ["latin"],
-});
-
-export const interTight = Inter_Tight({
-  variable: "--font-sans-tight",
-  subsets: ["latin"],
-});
+import { inter } from "./fonts";
 
 export const metadata: Metadata = {
   title: "Reise.",
-  description: "",
+  description:
+    "AI-powered app for finding one-day trip destinations based on your vibe.",
+  keywords: [
+    "one-day trips",
+    "travel",
+    "destinations",
+    "AI",
+  ],
 };
 
 export default function RootLayout({
@@ -30,10 +27,10 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn("font-sans", inter.variable)}
+      className={cn("font-sans", inter.className)}
     >
       <body
-        className={`${inter.variable} font-sans antialiased`}
+        className={`${inter.className} font-sans antialiased`}
       >
         <SessionProvider>
           <QueryClientProvider>

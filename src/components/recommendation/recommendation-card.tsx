@@ -1,5 +1,5 @@
 import WeatherBlock from "@/components/recommendation/weather-block";
-import { interTight } from "@/app/layout";
+import { interTight } from "@/app/fonts";
 import clsx from "clsx";
 import {
   Accordion,
