@@ -13,6 +13,8 @@ import { FavoritesBlock } from "./favorites-block";
 import { ChatsBlock } from "./chats-block";
 import { Suspense } from "react";
 import { Skeleton } from "../ui/skeleton";
+import { Button } from "../ui/button";
+import { Sparkles } from "lucide-react";
 
 export function AppSidebar({
   user,
@@ -30,6 +32,15 @@ export function AppSidebar({
       <SidebarContent className="scrollbar-gutter-stable gap-1.5">
         {user && (
           <>
+            <Button
+              asChild
+              variant={"secondary"}
+              className="bg-sidebar text-primary"
+            >
+              <Link href="/">
+                <Sparkles className="size-4" /> New Search
+              </Link>
+            </Button>
             <Suspense
               fallback={<SidebarSuspenseSkeleton />}
             >

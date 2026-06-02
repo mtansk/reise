@@ -23,7 +23,10 @@ export function ChatsBlock() {
   );
 
   return (
-    <Collapsible defaultOpen className="group/collapsible">
+    <Collapsible
+      defaultOpen={chats.length > 0}
+      className="group/collapsible"
+    >
       <SidebarGroup className="p-1">
         <SidebarGroupLabel asChild>
           <CollapsibleTrigger

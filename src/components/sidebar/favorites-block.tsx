@@ -23,7 +23,10 @@ export function FavoritesBlock() {
   );
 
   return (
-    <Collapsible defaultOpen className="group/collapsible">
+    <Collapsible
+      defaultOpen={favorites.length > 0}
+      className="group/collapsible"
+    >
       <SidebarGroup className="p-1">
         <SidebarGroupLabel asChild>
           <CollapsibleTrigger
