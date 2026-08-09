@@ -37,4 +37,8 @@ You can see it in action at [here](https://ai.mtansk.com).
 - **Version Control:** Use Git branches.
 - **New Features:** Add suggestions sharing and attractions search within the recommended locations.
 
-## Visuals
+## Quick Walkthrough
+
+This short 40-seconds video shows main features of the app, including destinations search, optimistic updates, further suggestions within search, authorization, and data transfer.
+
+https://github.com/user-attachments/assets/34e09cb9-76d9-4d9d-870a-b7cac6fdb57b
