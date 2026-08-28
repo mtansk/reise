@@ -4,7 +4,7 @@ Reise is an AI-powered Next.js application for searching one-day travel destinat
 
 My goal was to build a nice portfolio project using the latest technologies and libraries available at that time, implementing their best practices and patterns.
 
-You can see it in action at [here](https://ai.mtansk.com).
+You can see it in action [here](https://ai.mtansk.com).
 
 ## Key Features
 
